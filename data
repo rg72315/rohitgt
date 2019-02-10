@@ -1,0 +1,21 @@
+
+#y = mx+c ,y=dependent, x=indepdt, 
+dataset <-read.csv("Salary_Data.csv")
+dataset$Age= ifelse(is.na(dataset$Age),ave(dataset$Age, FUN=function(x) mean(x,na.rm = TRUE)),dataset$Age)
+library(caTools)
+set.seed(123)
+split<-sample.split(dataset$YearsExperience,SplitRatio = .8)
+train_set<-subset(dataset,split==TRUE)
+test_set<-subset(dataset,split==FALSE)
+regras=lm(formula = Salary~YearsExperience,data = train_set)
+summary(regras)
+y_pred=predict(regras,newdata=test_set)
+y_pred
+View(test_set)
+View(train_set)
+View(dataset)
+tester <-read.csv("salary2.csv")
+View(tester)
+y_pred=predict(regras,newdata=tester)
+y_pred
+View(y_pred)
